@@ -20,8 +20,10 @@ done
 
 # Set default model path if not provided
 if [ -z "$MODEL_PATH" ]; then
-    MODEL_PATH="deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+    MODEL_PATH="local_path/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
 fi
+
+HOME=/local_home
 
 # Train over a single node, 8 A100-80GB GPUs.
 python3 -m verl.trainer.main_ppo \
@@ -65,4 +67,7 @@ python3 -m verl.trainer.main_ppo \
     trainer.save_freq=20 \
     trainer.test_freq=20 \
     trainer.default_hdfs_dir=null \
-    trainer.total_epochs=30 "${@:1}"
+    trainer.total_epochs=30 "${@:1}" \
+    trainer.default_local_dir=$HOME/experiment/dir1
+
+# trainer.n_gpus_per_node=8 \
